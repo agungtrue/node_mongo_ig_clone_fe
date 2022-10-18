@@ -9,12 +9,10 @@ const Profile = () => {
     const history = useHistory();
 
     // from localStorage
-    const User = JSON.parse(localStorage.getItem('user'));
+    // const User = JSON.parse(localStorage.getItem('user'));
 
     // from state using useContext
     const { state } = useContext(UserContext);
-    console.log('profile', state)
-
 
     const checker = () => {
         if(!localStorage.getItem('jwt')) {
@@ -29,17 +27,18 @@ const Profile = () => {
         <div className="profile-wrapper">
             <div className="img-person">
                 <div>
-                    <img style={{ width: '160px', height: '160px', borderRadius: "80px"}}
+                    <img style={{ width: '120px', height: '120px', borderRadius: "80px"}}
                     alt="person"
                     src="https://images.unsplash.com/photo-1589571894960-20bbe2828d0a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" />
                 </div>
                 <div>
-                    <h4>{ state ? state.name : '-' }</h4>
+                    <h4 style={{ paddingLeft: 10, textTransform: 'capitalize' }}>{ state ? state.name : '-' }</h4>
                     <div className="person-info-1">
-                        <h6>40 posts</h6>
-                        <h6>40 followers</h6>
-                        <h6>40 following</h6>
+                        <h6><span style={{ fontWeight: 'bold' }}>17</span> posts</h6>
+                        <h6><span style={{ fontWeight: 'bold' }}>17</span> followers</h6>
+                        <h6><span style={{ fontWeight: 'bold' }}>17</span> following</h6>
                     </div>
+                    <h6 style={{ color: "red" }}>*This page has no features</h6>
                 </div>
             </div>
             <div className="gallery">

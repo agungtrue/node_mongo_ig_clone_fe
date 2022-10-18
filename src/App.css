@@ -4,9 +4,19 @@ a {
 
 @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
 
-.brand-logo {
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav ul a {
+  padding: 0 8px;
+}
+
+.brand-logo-ig {
   font-family: 'Grand Hotel', cursive;
   padding-left: 10px !important;
+  font-size: 3rem;
 }
 
 .insta-title-login {
@@ -52,7 +62,7 @@ a {
 .person-info-1 {
   display: flex;
   justify-content: space-between;
-  width: 108%;
+  gap: 10px;
 }
 
 .gallery {
@@ -82,7 +92,6 @@ a {
 }
 
 .likes i {
-  margin: 0 10px;
   cursor: pointer;
 }
 

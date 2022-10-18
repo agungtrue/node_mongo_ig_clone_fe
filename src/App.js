@@ -9,7 +9,6 @@ import Login from './components/page/Login';
 import Profile from './components/page/Profile';
 import Signup from './components/page/Signup';
 import CreatePost from './components/page/CreatePost';
-import Site from './components/page2/Site';
 import { reducer, initialState } from './reducers/userReducer';
 
 export const UserContext = createContext();
@@ -19,8 +18,8 @@ const Routing = () => {
   const { dispatch } = useContext(UserContext);
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
-    if(user) {
-      console.info({ user })
+    if (user) {
+      // console.info({ user })
       dispatch({type: 'user', payload: user});
     }
     else {
@@ -46,16 +45,6 @@ const Routing = () => {
         </Route>
       </Switch>
     );
-}
-
-const NewSite = () => {
-  return (
-    <Switch>
-      <Route path="/site">
-          <Site/>
-      </Route>
-    </Switch>
-  )
 }
 
 function App() {

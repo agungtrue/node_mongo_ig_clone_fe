@@ -6,13 +6,11 @@ import { UserContext } from '../App';
 const Navbar = () => {
     const history = useHistory();
     const { state, dispatch } = useContext(UserContext)
-    console.info('from Navbar', { state });
+    // console.info('from Navbar', { state });
 
     const logOut = () => {
-        const token = !localStorage.getItem('jwt') ? false : true;
-        if(!token) {
-            console.log('oke');
-        } else {
+        const token = localStorage.getItem('jwt')
+        if (token) {
             localStorage.clear();
             dispatch({type: 'logout'});
             M.toast({ html: `good bye ${state.name}!!`, classes: '#81c784 green lighten-1' })
@@ -46,10 +44,14 @@ const Navbar = () => {
     return (
         <nav>
             <div className="nav-wrapper white">
-                <Link to={ state ? '/' : '/login'} className="brand-logo">Instagram</Link>
-                    <ul id="nav-mobile" className="right hide-on-med-and-down">
+                <div>
+                    <Link to={ state ? '/' : '/login'} className="brand-logo-ig">Instagram</Link>
+                </div>
+                <div>
+                    <ul id="nav-mobile">
                         { renderList() }
                     </ul>
+                </div>
             </div>
       </nav>
     )

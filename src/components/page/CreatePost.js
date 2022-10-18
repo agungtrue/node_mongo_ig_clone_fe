@@ -3,56 +3,57 @@ import M from 'materialize-css';
 import { useHistory } from 'react-router-dom';
 
 const CreatePost = () => {
-
     const history = useHistory();
     const [title, setTitle] = useState("");
-    const [body, setBody] = useState("");
-    const [image, setImage] = useState("");
-    const [url, setUrl] = useState("");
+    const [image, setImage] = useState(null);
 
+    const API_URL = process.env.REACT_APP_API_URL;
 
-    const postDetail = () => {
+    function handleUpload(e) {
+        const { files } = e.target
+        console.info(files);
+        const fileImage = files[0];
+
         const data  = new FormData();
-        data.append("file", image);
-        data.append('upload_preset', 'src-images');
-        data.append('cloud_name', 'img-agungtrue');
+        data.append("file", fileImage);
 
-        fetch('https://api.cloudinary.com/v1_1/img-agungtrue/image/upload', {
+        fetch(`${API_URL}/api/upload/img`, {
             method: 'POST',
+            headers: {
+                'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
+            },
             body: data
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
-            setUrl(data.url)
-            posting(data);
+            if (data?.data?.path) setImage(data.data);
         })
         .catch(err => console.log(err));
     }
 
-    const posting = (img) => {
-        const API = 'https://polar-bastion-55096.herokuapp.com'
-        console.log('url', url)
-        fetch(`${API}/api/v1/posts`, {
-        method: 'POST',
-        headers: {
-            'Content-Type' : 'application/json',
-            'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
-        },
-        body: JSON.stringify({
-                title,
-                body,
-                photo: img.url
-            })
+    const posting = () => {
+
+        if (!image || !title) {
+            return M.toast({html: 'please fill the data!', classes: '#e53935 red darken-1'})
+        }
+
+        fetch(`${API_URL}/api/post`, {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
+            },
+            body: JSON.stringify({ title, photo: image.path })
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
-            if(data.status === 'fail') {
-                return M.toast({html: 'please fill the data!', classes: '#e53935 red darken-1'})
+            console.log('posting', { data })
+            // return
+            if(data.status === 'BAD_REQUEST') {
+                return M.toast({ html: 'Something went wrong', classes: '#e53935 red darken-1' })
             }
-            if(data.error) {
-                return M.toast({html: data.error, classes: '#e53935 red darken-1'})
+            if(data.errors) {
+                return M.toast({ html: 'Something went wrong', classes: '#e53935 red darken-1' })
             }
 
             M.toast({html: data.message, classes: '#81c784 green lighten-2'})
@@ -72,20 +73,18 @@ const CreatePost = () => {
 
      return (
         <div className="card input-filed post">
-            <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="title"/>
-            <input type="text" value={body} onChange={e => setBody(e.target.value)} placeholder="body"/>
-
+            <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Title"/>
             <div className="file-field input-field body-post">
                 <div className="btn #64b5f6 blue lighten-2">
                     <span>File</span>
-                    <input type="file" onChange={e => setImage(e.target.files[0])}/>
+                    <input type="file" onChange={handleUpload}/>
                 </div>
                 <div className="file-path-wrapper">
                     <input className="file-path validate" type="text"/>
                 </div>
             </div>
             <button className="btn waves-effect waves-light #64b5f6 blue lighten-2"
-            onClick={() => postDetail()}
+                onClick={() => posting()}
             >
                 Posting
             </button>
