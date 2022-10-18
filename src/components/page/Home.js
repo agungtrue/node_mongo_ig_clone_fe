@@ -14,7 +14,8 @@ const Home = () => {
     }, []);
 
     const getAllPost = async () => {
-        setLoading(true)
+        setLoading(true);
+        setComment('');
 
         await fetch(`${API_URL}/api/post`, {
             method: 'GET',
@@ -170,7 +171,13 @@ const Home = () => {
                                 {Boolean(handleCanComment(data)) && (
                                     <div className="row">
                                         <div className="input-field col s9">
-                                            <input type="text" placeholder="add a comment" name="comment" onChange={(e) => setComment(e.target.value)} />
+                                            <input 
+                                                value={comment}
+                                                type="text"
+                                                placeholder="Add a comment"
+                                                name="comment"
+                                                onChange={(e) => setComment(e.target.value)}
+                                            />
                                         </div>
                                         <div className="input-field col s3">
                                             <button
