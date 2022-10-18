@@ -1,5 +1,5 @@
 export const reducer = (state, action) => {
-    console.log('reducer', {state, action});
+    // console.log('reducer', {state, action});
     if(action.type === 'user') {
         return action.payload;
     }

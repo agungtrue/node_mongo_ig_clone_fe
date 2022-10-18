@@ -12,11 +12,11 @@ const Login = () => {
     const API_URL = process.env.REACT_APP_API_URL;
 
     const userLogin = () => {
-        if(!email || !password) {
+        if (!email || !password) {
             M.toast({ html: 'please fill email and password', classes: '#e53935 red darken-1' })
             return false;
         }
-        if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
             M.toast({ html: 'Please fill an valid email', classes: '#e53935 red darken-1' })
             return false;
         }
@@ -32,7 +32,7 @@ const Login = () => {
             })
         }).then(res => res.json())
         .then(data => {
-            console.log(data)
+            // console.log(data)
             if(data.status === 'BAD_REQUEST' || data.status === 'INTERNAL_SERVER_ERROR') {
                 return M.toast({html: data.message, classes: '#e53935 red darken-1'})
             }
