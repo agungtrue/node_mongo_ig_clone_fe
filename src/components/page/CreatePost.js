@@ -83,6 +83,7 @@ const CreatePost = () => {
                     <input className="file-path validate" type="text"/>
                 </div>
             </div>
+            <p style={{ color: 'red' }}>*Image should be png or jpeg </p>
             <button className="btn waves-effect waves-light #64b5f6 blue lighten-2"
                 onClick={() => posting()}
             >

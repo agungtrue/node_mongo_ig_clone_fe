@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 const Home = () => {
     const [post, setPost] = useState([]);
     const [comment, setComment] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const API_URL = process.env.REACT_APP_API_URL;
 
@@ -13,7 +14,9 @@ const Home = () => {
     }, []);
 
     const getAllPost = async () => {
-        return await fetch(`${API_URL}/api/post`, {
+        setLoading(true)
+
+        await fetch(`${API_URL}/api/post`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
@@ -22,8 +25,8 @@ const Home = () => {
             })
             .then(res => res.json())
             .then(data => {
-                // console.log({ data })
                 setPost(data.data)
+                setLoading(false)
             }).catch( error => console.log(error))
     }
 
@@ -118,9 +121,9 @@ const Home = () => {
 
     return (
         <>
-            {Boolean(!post.length) && (
-                <div class="progress">
-                    <div class="indeterminate"></div>
+            {Boolean(loading) && (
+                <div className="progress">
+                    <div className="indeterminate"></div>
                 </div>
             )}
             <div className="home">
